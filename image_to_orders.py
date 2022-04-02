@@ -1,6 +1,6 @@
 import json
 import math
-import os 
+import os
 
 from PIL import Image
 
@@ -24,64 +24,69 @@ color_map = {
     "#FFFFFF": 31,  # white
 }
 
-rgb_colors_array = [(255, 69, 0), (255, 168, 0), (255, 214, 53), (0, 163, 104), (126, 237, 86), (36, 80, 164), (54, 144, 234), (81, 233, 244), (129, 30, 159), (180, 74, 192), (255, 153, 170), (156, 105, 38), (0, 0, 0), (137, 141, 144), (212, 215, 217), (255, 255, 255)]
+rgb_colors_array = [(255, 69, 0), (255, 168, 0), (255, 214, 53), (0, 163, 104), (126, 237, 86), (36, 80, 164),
+                    (54, 144, 234), (81, 233, 244), (129, 30, 159), (180, 74, 192), (255, 153, 170), (156, 105, 38),
+                    (0, 0, 0), (137, 141, 144), (212, 215, 217), (255, 255, 255)]
+
 
 def rgb_to_hex(rgb):
     return ('#%02x%02x%02x' % rgb).upper()
 
+
 def closest_color(target_rgb):
     global rgb_colors_array
-    
-    r, g, b = target_rgb
-    a = target_rgb[3] if len(target_rgb) > 3 else 255 
 
-    if a < 255 or (r,g,b) == (69,42,0):
-        return (69,42,0)
-    
+    r, g, b = target_rgb
+    a = target_rgb[3] if len(target_rgb) > 3 else 255
+
+    if a < 255 or (r, g, b) == (69, 42, 0):
+        return (69, 42, 0)
+
     color_diffs = []
     for color in rgb_colors_array:
         cr, cg, cb = color
         color_diff = math.sqrt((r - cr) ** 2 + (g - cg) ** 2 + (b - cb) ** 2)
         color_diffs.append((color_diff, color))
-        
+
     return min(color_diffs)[1]
 
 
-def test_coords(coords):
-    global reverse_map
+start_x = input("provide starting X ordinate ")
+start_y = input("provide starting Y ordinate ")
 
-    image_path = os.path.join(os.path.abspath(os.getcwd()), 'image.jpg')
-    im = Image.open(image_path)
-    pix = im.load()
-    
-    for r, c, cc in coords:
-        pix[r, c] = reverse_map[cc][0]
-    
-    new_image_path = os.path.join(os.path.abspath(os.getcwd()), 'new_image.png')
-    im.save(new_image_path)
+# ending height ordinate so that we can fit the image in our map & at same time keep our aspect Ratio fine
 
-start_x = 0
-start_y = 0
+end_x = input("provide ending (left side) X ordinate  ")
+end_y = input("provide ending (left side) Y ordinate")
+
+
 
 image_path = os.path.join(os.path.abspath(os.getcwd()), 'image.jpg')
 im = Image.open(image_path)
 
+
 pix = im.load()
 w, h = im.size
+#new height will respect aspect ratio
+aspect_ratio = w/h
+h = abs(end_y-start_y)
+w = int(h *aspect_ratio)
+new_im = im.resize(w,h)
+new_pix = new_im.load()
+
 
 coords = []
 reverse_map = {}
-for y in range(start_y, start_y+h):
-    for x in range(start_x, start_x+w):
-        target_rgb = pix[x, y];
+for y in range(start_y, start_y + h):
+    for x in range(start_x, start_x + w):
+        target_rgb = new_pix[x, y];
         new_rgb = closest_color(target_rgb)
         new_hex = rgb_to_hex(new_rgb)
         color_code = color_map[new_hex]
         coords.append([x, y, color_code])
         reverse_map[color_code] = [new_rgb, new_hex]
 
-test_coords(coords)
-
+# test_coords(coords)
 
 with open("image_to_orders.json", "w") as f:
     json.dump(coords, f, indent=4)
