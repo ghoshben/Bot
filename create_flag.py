@@ -10,7 +10,7 @@ def get_rectangle_coordinates(* ,top_y, bottom_y, left_x, right_x, colour):
     return coords
 
 saffron = get_rectangle_coordinates(top_y = 299,bottom_y= 315,left_x= 238,right_x= 541,colour= 3)
-white = get_rectangle_coordinates(top_y= 316,bottom_y= 239,left_x= 238,right_x= 541,colour= 31)
+white = get_rectangle_coordinates(top_y= 316,bottom_y= 329,left_x= 238,right_x= 541,colour= 31)
 green = get_rectangle_coordinates(top_y= 330,bottom_y= 342,left_x= 238,right_x= 541,colour= 6)
 
 flag = saffron + white + green
