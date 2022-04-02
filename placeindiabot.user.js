@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PlaceIndia Bot
 // @namespace    https://github.com/PreciousWarrior/Bot
-// @version      4
+// @version      5
 // @description  The bot for PlaceIndia!
 // @author       NoahvdAa
 // @match        https://www.reddit.com/r/place/*
@@ -20,6 +20,24 @@
 var placeOrders = [];
 var accessToken;
 var canvas = document.createElement("canvas");
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
 
 const COLOR_MAPPINGS = {
 	"#FF4500": 2,
@@ -76,7 +94,7 @@ async function attemptPlace() {
 		return;
 	}
 
-	for (const order of placeOrders) {
+	for (const order of shuffle(placeOrders)) {
 		const x = order[0];
 		const y = order[1];
 		const colorId = order[2];
