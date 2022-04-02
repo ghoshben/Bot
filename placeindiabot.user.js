@@ -47,12 +47,12 @@ const COLOR_MAPPINGS = {
 	canvas = document.body.appendChild(canvas);
 
 	Toastify({
-		text: 'Accesstoken ophalen...',
+		text: 'Getting access Token...',
 		duration: 10000
 	}).showToast();
 	accessToken = await getAccessToken();
 	Toastify({
-		text: 'Accesstoken opgehaald!',
+		text: 'Access token fetched!',
 		duration: 10000
 	}).showToast();
 
@@ -69,7 +69,7 @@ async function attemptPlace() {
 	} catch (e) {
 		console.warn('Fout bij ophalen map: ', e);
 		Toastify({
-			text: 'Fout bij ophalen map. Opnieuw proberen in 15 sec...',
+			text: 'Error retrieving folder. Try again in 15 sec.',
 			duration: 10000
 		}).showToast();
 		setTimeout(attemptPlace, 15000); // probeer opnieuw in 15sec.
@@ -87,13 +87,13 @@ async function attemptPlace() {
 		if (currentColorId == colorId) continue;
 
 		Toastify({
-			text: `Pixel proberen te plaatsen op ${x}, ${y}...`,
+			text: `Trying to post pixel to ${x}, ${y}...`,
 			duration: 10000
 		}).showToast();
 		await place(x, y, colorId);
 
 		Toastify({
-			text: `Wachten op cooldown...`,
+			text: `Waiting for cooldown...`,
 			duration: 315000
 		}).showToast();
 		setTimeout(attemptPlace, 315000); // 5min en 15sec, just to be safe.
@@ -101,26 +101,26 @@ async function attemptPlace() {
 	}
 
 	Toastify({
-		text: 'Alle pixels staan al op de goede plaats!',
+		text: 'All pixels are already in the right place!',
 		duration: 10000
 	}).showToast();
 	setTimeout(attemptPlace, 30000); // probeer opnieuw in 30sec.
 }
 
 function updateOrders() {
-	fetch('https://placenl.github.io/Orders/orders.json').then(async (response) => {
-		if (!response.ok) return console.warn('Kan orders niet ophalen! (non-ok status code)');
+	fetch('https://raw.githubusercontent.com/PreciousWarrior/Bot/master/orders.json').then(async (response) => {
+		if (!response.ok) return console.warn('Unable to fetch orders! (non-ok status code)');
 		const data = await response.json();
 
 		if (JSON.stringify(data) !== JSON.stringify(placeOrders)) {
 			Toastify({
-				text: `Nieuwe orders geladen. Totaal aantal pixels: ${data.length}.`,
+				text: `New orders loaded. Total pixels: ${data.length}.`,
 				duration: 10000
 			}).showToast();
 		}
 
 		placeOrders = data;
-	}).catch((e) => console.warn('Kan orders niet ophalen!', e));
+	}).catch((e) => console.warn('Unable to fetch orders!', e));
 }
 
 function place(x, y, color) {
