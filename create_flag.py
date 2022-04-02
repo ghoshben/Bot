@@ -1,7 +1,7 @@
 import json
 
 
-def get_rectangle_coordinates(top_y, bottom_y, left_x, right_x, colour):
+def get_rectangle_coordinates(* ,top_y, bottom_y, left_x, right_x, colour):
     """Gets the coordinates of the rectangle to create a flag."""
     coords = []
     for y in range(top_y, bottom_y+1):
@@ -9,9 +9,9 @@ def get_rectangle_coordinates(top_y, bottom_y, left_x, right_x, colour):
             coords.append([x, y, colour])
     return coords
 
-saffron = get_rectangle_coordinates(299, 315, 238, 541, 3)
-white = get_rectangle_coordinates(316, 239, 238, 541, 31)
-green = get_rectangle_coordinates(330, 342, 238, 541, 6)
+saffron = get_rectangle_coordinates(top_y = 299,bottom_y= 315,left_x= 238,right_x= 541,colour= 3)
+white = get_rectangle_coordinates(top_y= 316,bottom_y= 239,left_x= 238,right_x= 541,colour= 31)
+green = get_rectangle_coordinates(top_y= 330,bottom_y= 342,left_x= 238,right_x= 541,colour= 6)
 
 flag = saffron + white + green
 
