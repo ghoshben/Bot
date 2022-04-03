@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         PlaceIndia Bot
-// @namespace    https://github.com/PreciousWarrior/Bot
+// @namespace    https://github.com/ghoshben/Bot
 // @version      5
 // @description  The bot for PlaceIndia!
 // @author       NoahvdAa
@@ -9,8 +9,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
 // @require	     https://cdn.jsdelivr.net/npm/toastify-js
 // @resource     TOASTIFY_CSS https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css
-// @updateURL    https://github.com/PreciousWarrior/Bot/raw/master/placeindiabot.user.js
-// @downloadURL  https://github.com/PreciousWarrior/Bot/raw/master/placeindiabot.user.js
+// @updateURL    https://github.com/ghoshben/Bot/raw/master/placeindiabot.user.js
+// @downloadURL  https://github.com/ghoshben/Bot/raw/master/placeindiabot.user.js
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -131,7 +131,7 @@ async function attemptPlace() {
 
 function updateOrders() {
 	fetch(
-		"https://raw.githubusercontent.com/PreciousWarrior/Bot/master/orders.json"
+		"https://raw.githubusercontent.com/ghoshben/Bot/master/orders.json"
 	)
 		.then(async (response) => {
 			if (!response.ok)
